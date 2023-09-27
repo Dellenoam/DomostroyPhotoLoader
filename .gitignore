@@ -1,0 +1,9 @@
+.idea
+.git
+__pycache__
+venv
+media
+staticfiles
+.env
+.DS_STORE
+._*

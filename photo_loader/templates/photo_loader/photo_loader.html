@@ -26,4 +26,9 @@
             {% endfor %}
         </ul>
     {% endif %}
+
+    {% block js %}
+{#        Place the js connection here for the photo_loader application#}
+{#        <script type="text/javascript" src="{% static 'photo_loader/js/scripts.js' %}"></script>#}
+    {% endblock %}
 {% endblock %}

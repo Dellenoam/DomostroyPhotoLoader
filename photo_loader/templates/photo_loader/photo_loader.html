@@ -1,8 +1,29 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block title %} Загрузчик фото {% endblock %}
 
-{% block content %}
-
+{% block css %}
+{#    Place the css connection here for the photo_loader application#}
+{#    <link rel="stylesheet" href="{% static 'photo_loader/css/styles.css' %}">#}
 {% endblock %}
 
+{% block content %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ files_upload_form.files }}
+        <input type="submit" value="Создать"/>
+    </form>
+
+    {% if user_photos %}
+        <ul>
+            {% for user_photo in user_photos %}
+                <li>
+                    <strong>{{ user_photo.name }}</strong>
+                    <br>
+                    <img src="data:image/jpeg;base64,{{ user_photo.data }}" alt="{{ user_photo.name}}">
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

@@ -27,6 +27,18 @@
         </ul>
     {% endif %}
 
+    {% if server_photos %}
+        <ul>
+            {% for server_photo in server_photos %}
+                <li>
+                    <strong>{{ server_photo.name }}</strong>
+                    <br>
+                    <img src="data:image/jpeg;base64,{{ server_photo.data }}" alt="{{ server_photo.name }}">
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
     {% block js %}
 {#        Place the js connection here for the photo_loader application#}
 {#        <script type="text/javascript" src="{% static 'photo_loader/js/scripts.js' %}"></script>#}

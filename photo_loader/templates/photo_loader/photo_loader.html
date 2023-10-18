@@ -1,8 +1,80 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
+{% block additional_media1 %}<link rel="stylesheet" href="{%static '/photo_loader/css/photo_loader.css'%}"> {% endblock %}
 {% block title %} Загрузчик фото {% endblock %}
 
 {% block content %}
+<nav class="nav_bar">
+    <input type="file" id="folderInput" multiple/>
+    <button onclick="findPhotos()">open</button>
+</nav>
+<div class="main_container">
 
+<!--    Верхняя часть интерфейса-->
+    <section class="top_container">
+
+<!--        изображение, загружаемое на сервер и радиокнопка выбора-->
+        <div class="left_top_container">
+            <div class="radio_btn left_radio_btn">
+                <label class="lblRadio" for="leftRadioBtn">Заменить</label>
+                <input class="inpRadio" type="radio" name="radio" id="leftRadioBtn">
+            </div>
+            <div class="left_img_container">
+                <img class="img" src="" alt="" width="350" height="350">
+                <h2 class="file_name">имя файла</h2>
+            </div>
+        </div>
+
+<!--        Наименование товара-->
+        <div class="mid_top_container">
+            <h2>Наименование товара</h2>
+        </div>
+
+<!--        Изображение, уже имеющееся на сервере с аналогичным названием файла и радиокнопка выбора-->
+        <div class="right_top_container">
+            <div class="right_img_container">
+                <img class="img" src="" alt="" width="350" height="350">
+                <h2 class="file_name">имя файла</h2>
+            </div>
+            <div class="radio_btn right_radio_btn">
+                <label class="lblRadio" for="rightRadioBtn">Оставить</label>
+                <input class="inpRadio" type="radio" name="radio" id="rightRadioBtn">
+            </div>
+        </div>
+    </section>
+
+
+<!--    Нижняя часть интерфейса-->
+   <!-- <section class="bot_container">
+
+        Проводник
+        <div class="left_bot_container">
+            <label for="explorer">Проводник</label>
+            <div class="explorer_container">
+                <select size="12" class="explorer" name="explorer" id="explorer" multiple>
+                    <option value="">file 1</option>
+                    <option value="">file 2</option>
+                    <option value="">file 3</option>
+                    <option value="">file 4</option>
+                </select>
+            </div>
+        </div>
+
+        Проводник фтпшки
+        <div class="right_bot_container">
+            <label for="ftp_explorer">ftp-Проводник</label>
+            <div class="ftp_explorer_container">
+                <select size="12" class="explorer" name="ftp_explorer" id="ftp_explorer"  multiple>
+                    <option value="">file 1</option>
+                    <option value="">file 2</option>
+                    <option value="">file 3</option>
+                    <option value="">file 4</option>
+                </select>
+            </div>
+
+        </div>
+    </section> -->
+</div>
 {% endblock %}
 

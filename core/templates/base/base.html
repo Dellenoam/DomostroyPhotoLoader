@@ -3,11 +3,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{%static 'core/css/reset.css'%}">
+    {% block additional_media1 %}{% endblock %}
     <title>{% block title %}{% endblock %}</title>
-    {% block css %}{% endblock %}
 </head>
 <body>
     {% block content %}{% endblock %}
-    {% block js %}{% endblock %}
 </body>
 </html>

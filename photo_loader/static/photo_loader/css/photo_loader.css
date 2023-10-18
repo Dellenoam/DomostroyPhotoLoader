@@ -1,0 +1,64 @@
+.main_container{
+    display: flex;
+    flex-direction: column;
+}
+
+
+/*top*/
+
+.top_container, .bot_container{
+    min-height: 50vh;
+    display: flex;
+}
+.left_top_container, .right_top_container{
+    flex: 1;
+    display: flex;
+}
+
+.left_img_container, .right_img_container{
+    flex: 1;
+}
+.radio_btn{
+    display: flex;
+    align-items: center;
+}
+
+.radio_btn{
+    margin: 10px;
+}
+
+.lblRadio, .inpRadio{
+    margin: 2px;
+}
+
+.left_img_container, .right_img_container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.img{
+    margin: 10px;
+}
+.file_name{
+    margin-bottom: 10px;
+}
+
+/*mid*/
+.mid_top_container{
+    margin: auto 10px;
+}
+
+/*bot*/
+.left_bot_container, .right_bot_container{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+}
+
+.explorer{
+    margin-top: 10px;
+    border: #1b1b1b;
+}
+

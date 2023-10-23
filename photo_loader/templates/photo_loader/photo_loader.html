@@ -15,37 +15,38 @@
     </form>
 
     <div class="main_container">
-        <!--    Верхняя часть интерфейса-->
-        <section class="top_container">
-
-            <!--        изображение, загружаемое на сервер и радиокнопка выбора-->
+        <div class="left_container">
             {% if user_photos %}
                 {% for user_photo in user_photos %}
-                    <div class="left_top_container">
+                    <div class="left_file_container">
                         <div class="radio_btn left_radio_btn">
-                            <label class="lblRadio" for="leftRadioBtn">Заменить</label>
-                            <input class="inpRadio" type="radio" name="radio" id="leftRadioBtn">
+                            <label class="lblRadio" for="user_{{ user_photo.name }}">Заменить</label>
+                            <input class="inpRadio" type="radio" name="{{ user_photo.name }}" id="user_{{user_photo.name}}"> <!-- переделать айдишник -->
                         </div>
                         <div class="left_img_container">
                             <img class="img" src="data:image/jpg;base64,{{ user_photo.data }}"
                                  alt="{{ user_photo.name }}" width="350" height="350">
-                            <h2 class="file_name">{{ user_photo.name }}</h2>
+                            <h2 class="file_name">{{ user_photo.name }} </h2>
                         </div>
                     </div>
                 {% endfor %}
             {% endif %}
+        </div>
 
-            {% if products_name %}
-                <!--        Наименование товара-->
-                <div class="mid_top_container">
+        <div class="mid_container">
+            {% for product_name in user_photos %}
+{#            {% if products_name %}#}
+                <div class="product_name_container">
                     <h2>Наименование товара</h2>
                 </div>
-            {% endif %}
+{#            {% endif %}#}
+            {% endfor %}
+        </div>
 
-            <!--        Изображение, уже имеющееся на сервере с аналогичным названием файла и радиокнопка выбора-->
+        <div class="right_container">
             {% if server_photos %}
                 {% for server_photo in server_photos %}
-                    <div class="right_top_container">
+                    <div class="right_file_container">
                         <div class="right_img_container">
                             <img class="img" src="data:image/jpg;base64,{{ server_photo.data }}"
                                  alt="{{ server_photo.name }}"
@@ -53,13 +54,13 @@
                             <h2 class="file_name">{{ server_photo.name }}</h2>
                         </div>
                         <div class="radio_btn right_radio_btn">
-                            <label class="lblRadio" for="rightRadioBtn">Оставить</label>
-                            <input class="inpRadio" type="radio" name="radio" id="rightRadioBtn">
+                            <label class="lblRadio" for="server_{{ server_photo.name }}">Оставить</label>
+                            <input class="inpRadio" type="radio" name="{{ server_photo.name }}" id="server_{{server_photo.name}}">
                         </div>
                     </div>
                 {% endfor %}
             {% endif %}
-        </section>
+        </div>
     </div>
 {% endblock %}
 

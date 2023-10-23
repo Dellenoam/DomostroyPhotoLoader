@@ -32,17 +32,22 @@ class PhotoLoader(View):
 
             ftp = FTP(os.getenv('ftp_server'))
             ftp.login(os.getenv('ftp_username'), os.getenv('ftp_password'))
-            ftp.cwd('DomostroyPhoto/1500x1500')
+            # ftp.cwd('DomostroyPhoto/1500x1500')
 
             for file in files:
-                user_encoded_files.append({'data': base64.b64encode(file.read()).decode('utf-8'), 'name': file.name})
+                user_encoded_files.append({
+                    'data': base64.b64encode(file.read()).decode('utf-8'),
+                    'name': file.name
+
+                })
 
                 file_data = BytesIO()
                 ftp.retrbinary(f'RETR {file.name}', file_data.write)
                 file_data.seek(0)
-                server_encoded_files.append(
-                    {'data': base64.b64encode(file_data.read()).decode('utf-8'), 'name': file.name}
-                )
+                server_encoded_files.append({
+                    'data': base64.b64encode(file_data.read()).decode('utf-8'),
+                    'name': file.name
+                })
 
             ftp.quit()
 

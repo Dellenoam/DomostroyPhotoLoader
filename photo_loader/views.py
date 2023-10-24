@@ -36,7 +36,7 @@ class PhotoLoader(View):
             try:
                 ftp = FTP(os.getenv('ftp_server'))
                 ftp.login(os.getenv('ftp_username'), os.getenv('ftp_password'))
-                ftp.cwd('test')
+                ftp.cwd('DomostroyPhoto/1500x1500')
             except TimeoutError:
                 return HttpResponse('Не удалось подключиться к серверу <br>'
                                     '<a href="javascript:history.back()">Назад</a>')

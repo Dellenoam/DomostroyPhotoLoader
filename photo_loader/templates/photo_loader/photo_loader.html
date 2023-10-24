@@ -21,7 +21,8 @@
                     <div class="left_file_container">
                         <div class="radio_btn left_radio_btn">
                             <label class="lblRadio" for="user_{{ user_photo.name }}">Заменить</label>
-                            <input class="inpRadio" type="radio" name="{{ user_photo.name }}" id="user_{{user_photo.name}}">
+                            <input class="inpRadio" type="radio" name="{{ user_photo.name }}"
+                                   id="user_{{ user_photo.name }}">
                         </div>
                         <div class="left_img_container">
                             <img class="img" src="data:image/jpg;base64,{{ user_photo.data }}"
@@ -34,12 +35,13 @@
         </div>
 
         <div class="mid_container">
-            {% for product_name in user_photos %}
-
-                <div class="product_name_container">
-                    <h2>Наименование товара</h2>
-                </div>
-            {% endfor %}
+            {% if products_name %}
+                {% for product_name in products_name %}
+                    <div class="product_name_container">
+                        <h2>{{ product_name }}</h2>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
 
         <div class="right_container">
@@ -54,7 +56,8 @@
                         </div>
                         <div class="radio_btn right_radio_btn">
                             <label class="lblRadio" for="server_{{ server_photo.name }}">Оставить</label>
-                            <input class="inpRadio" type="radio" name="{{ server_photo.name }}" id="server_{{server_photo.name}}">
+                            <input class="inpRadio" type="radio" name="{{ server_photo.name }}"
+                                   id="server_{{ server_photo.name }}">
                         </div>
                     </div>
                 {% endfor %}

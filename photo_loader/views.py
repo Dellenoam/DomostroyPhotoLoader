@@ -54,59 +54,59 @@ class PhotoLoader(View):
                 return HttpResponse('Сервер отказал в соединении или не слушает указанный порт <br>'
                                     '<a href="javascript:history.back()">Назад</a>')
 
-        for file in files:
-            user_encoded_files.append({
-                'data': base64.b64encode(file.read()).decode('utf-8'),
-                'name': file.name
-            })
-
-            file_data = BytesIO()
-
-            try:
-                ftp.retrbinary(f'RETR {file.name}', file_data.write)
-                file_data.seek(0)
-                server_encoded_files.append({
-                    'data': base64.b64encode(file_data.read()).decode('utf-8'),
+            for file in files:
+                user_encoded_files.append({
+                    'data': base64.b64encode(file.read()).decode('utf-8'),
                     'name': file.name
                 })
-            except error_perm as exception:
-                if '550' in str(exception):
-                    with open('media/server_media/404.jpg', 'rb') as image_404:
-                        server_encoded_files.append({
-                            'data': base64.b64encode(image_404.read()).decode('utf-8'),
-                            'name': file.name
-                        })
-                else:
-                    return HttpResponse('Неизвестная ошибка <br>'
+
+                file_data = BytesIO()
+
+                try:
+                    ftp.retrbinary(f'RETR {file.name}', file_data.write)
+                    file_data.seek(0)
+                    server_encoded_files.append({
+                        'data': base64.b64encode(file_data.read()).decode('utf-8'),
+                        'name': file.name
+                    })
+                except error_perm as exception:
+                    if '550' in str(exception):
+                        with open('media/server_media/404.jpg', 'rb') as image_404:
+                            server_encoded_files.append({
+                                'data': base64.b64encode(image_404.read()).decode('utf-8'),
+                                'name': file.name
+                            })
+                    else:
+                        return HttpResponse('Неизвестная ошибка <br>'
+                                            '<a href="javascript:history.back()">Назад</a>')
+
+                # Split the file name by '.' and '_' to extract its base name
+                try:
+                    base_file_name = file.name.split('.')[0].split('_')[0]
+                    vendor_code = base_file_name
+                    domostroy_api_key = os.getenv('domostroy_api_key')
+                    domostroy_response = requests.get(
+                        f'https://sort.diginetica.net/search?st={vendor_code}'
+                        f'&apiKey={domostroy_api_key}'
+                        f'&fullData=true&withSku=true').json()
+                    if domostroy_response['products'][0]['attributes']['артикул'][0] != base_file_name:
+                        products_name.append('Название товара не найдено')
+                    else:
+                        products_name.append(domostroy_response['products'][0]['name'])
+                except IndexError:
+                    return HttpResponse('В названии файла отсутствует расширение <br>'
+                                        '<a href="javascript:history.back()">Назад</a>')
+                except requests.RequestException:
+                    return HttpResponse('Не удалось получить ответ от API <br>'
+                                        '<a href="javascript:history.back()">Назад</a>')
+                except KeyError:
+                    return HttpResponse('В данных JSON отсутствует искомый элемент <br>'
                                         '<a href="javascript:history.back()">Назад</a>')
 
-            # Split the file name by '.' and '_' to extract its base name
-            try:
-                base_file_name = file.name.split('.')[0].split('_')[0]
-                vendor_code = base_file_name
-                domostroy_api_key = os.getenv('domostroy_api_key')
-                domostroy_response = requests.get(
-                    f'https://sort.diginetica.net/search?st={vendor_code}'
-                    f'&apiKey={domostroy_api_key}'
-                    f'&fullData=true&withSku=true').json()
-                if domostroy_response['products'][0]['attributes']['артикул'][0] != base_file_name:
-                    products_name.append('Название товара не найдено')
-                else:
-                    products_name.append(domostroy_response['products'][0]['name'])
-            except IndexError:
-                return HttpResponse('В названии файла отсутствует расширение <br>'
-                                    '<a href="javascript:history.back()">Назад</a>')
-            except requests.RequestException:
-                return HttpResponse('Не удалось получить ответ от API <br>'
-                                    '<a href="javascript:history.back()">Назад</a>')
-            except KeyError:
-                return HttpResponse('В данных JSON отсутствует искомый элемент <br>'
-                                    '<a href="javascript:history.back()">Назад</a>')
+            ftp.quit()
 
-        ftp.quit()
-
-        context['user_photos'] = user_encoded_files[::-1]
-        context['server_photos'] = server_encoded_files[::-1]
-        context['products_name'] = products_name[::-1]
+            context['user_photos'] = user_encoded_files[::-1]
+            context['server_photos'] = server_encoded_files[::-1]
+            context['products_name'] = products_name[::-1]
 
         return render(request, 'photo_loader/photo_loader.html', context)

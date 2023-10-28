@@ -1,3 +1,5 @@
+
+
 .main_container {
     margin-top: 10px;
     display: flex;
@@ -15,12 +17,13 @@
 }
 
 .product_name_container {
+    display: flex;
+    justify-content: space-evenly;
     margin: 190px 10px;
 }
 
 .left_file_container, .right_file_container {
     display: flex;
-    margin: 2px;
 }
 
 .left_img_container, .right_img_container {
@@ -44,9 +47,19 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 400px;
 }
 
+.img_wrapper{
+    width: 350px;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
 .img {
+    max-width: 350px;
+    max-height: 350px;
     margin: 10px;
 }
 

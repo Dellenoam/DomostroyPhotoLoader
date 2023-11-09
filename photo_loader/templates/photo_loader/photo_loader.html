@@ -7,14 +7,20 @@
 
 {% block title %} Загрузчик фото {% endblock %}
 
+{# File loading form #}
 {% block content %}
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ files_upload_form.files }}
-        <input type="submit" value="Создать"/>
-    </form>
+
+    <div class="upload_form">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ files_upload_form.files }}
+            <input type="submit" value="Создать"/>
+        </form>
+    </div>
 
     <div class="main_container">
+
+{#    user's photos #}
         <div class="left_container">
             {% if user_photos %}
                 {% for user_photo in user_photos %}
@@ -36,6 +42,7 @@
             {% endif %}
         </div>
 
+{#    product names #}
         <div class="mid_container">
             {% if products_name %}
                 {% for product_name in products_name %}
@@ -46,6 +53,7 @@
             {% endif %}
         </div>
 
+{#    photos on FTP #}
         <div class="right_container">
             {% if server_photos %}
                 {% for server_photo in server_photos %}

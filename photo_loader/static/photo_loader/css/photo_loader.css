@@ -1,3 +1,15 @@
+body{
+    background: linear-gradient(to bottom, #e5e5e5, #a4a4a4) no-repeat;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.upload_form{
+    display: flex;
+    justify-content: space-between;
+}
+
 
 
 .main_container {
@@ -19,7 +31,10 @@
 .product_name_container {
     display: flex;
     justify-content: space-evenly;
-    margin: 190px 10px;
+    align-items: center;
+    text-align: center;
+    height: 400px;
+    margin: 0 10px;
 }
 
 .left_file_container, .right_file_container {

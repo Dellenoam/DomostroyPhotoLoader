@@ -12,8 +12,8 @@ async def ftp_login():
     ftp = aioftp.Client()
     await ftp.connect(os.getenv('ftp_server'), 21)
     await ftp.login(os.getenv('ftp_username'), os.getenv('ftp_password'))
-    await ftp.change_directory('DomostroyPhoto')
-    await ftp.change_directory('1500x1500')
+    # await ftp.change_directory('DomostroyPhoto')
+    # await ftp.change_directory('1500x1500')
 
     return ftp
 
@@ -44,7 +44,7 @@ async def ftp_images_handling(ftp: aioftp.Client, files: UploadedFile):
             async with aiofiles.open('media/server_media/404.jpg', 'rb') as image_404:
                 server_encoded_files.append({
                     'data': base64.b64encode(await image_404.read()).decode('utf-8'),
-                    'name': file.name
+                    'name': f'{file.name} (Не найден на сервере)'
                 })
 
         task = asyncio.create_task(get_product_name(file))

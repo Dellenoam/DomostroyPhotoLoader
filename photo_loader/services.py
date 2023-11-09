@@ -43,7 +43,7 @@ async def ftp_images_handling(ftp: aioftp.Client, files: UploadedFile):
         else:
             async with aiofiles.open('media/server_media/404.jpg', 'rb') as image_404:
                 server_encoded_files.append({
-                    'data': base64.b64encode(image_404.read()).decode('utf-8'),
+                    'data': base64.b64encode(await image_404.read()).decode('utf-8'),
                     'name': file.name
                 })
 
@@ -73,7 +73,8 @@ async def get_product_name(file: UploadedFile):
                                    f'&apiKey={domostroy_api_key}&fullData=true&withSku=true') as response:
                 domostroy_response = await response.json()
 
-                if domostroy_response['products'][0]['attributes']['артикул'][0] != base_file_name:
+                products = domostroy_response.get('products')
+                if not products or products[0].get('attributes').get('артикул')[0] != base_file_name:
                     return 'Название товара не найдено'
 
-                return domostroy_response['products'][0]['name']
+                return products[0]['name']

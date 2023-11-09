@@ -7,12 +7,15 @@
 
 {% block title %} Загрузчик фото {% endblock %}
 
+{# File loading form #}
 {% block content %}
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ files_upload_form.files }}
-        <input type="submit" name="files_upload_form_submit" value="Загрузить">
-    </form>
+    <div class="upload_form">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ files_upload_form.files }}
+            <input type="submit" name="files_upload_form_submit" value="Загрузить">
+        </form>
+    </div>
 
     {% if files_selection_form %}
         <form method="POST" action="{% url 'photo_loader_submit' %}" id="files_selection_form">
@@ -64,8 +67,8 @@
                         </div>
                     {% endfor %}
                 </div>
-                <input type="submit" name="files_selection_form_submit" value="Подтвердить"/>
             </div>
+            <input type="submit" name="files_selection_form_submit" value="Подтвердить"/>
         </form>
     {% endif %}
 {% endblock %}

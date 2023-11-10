@@ -7,3 +7,5 @@ staticfiles
 .env
 .DS_STORE
 ._*
+logs/*
+!logs/.gitkeep

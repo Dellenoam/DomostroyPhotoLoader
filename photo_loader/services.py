@@ -3,8 +3,11 @@ import base64
 import os
 import aiohttp
 import aioftp
+import logging
 from django.core.files.uploadedfile import UploadedFile
 import aiofiles
+
+logger = logging.getLogger(__name__)
 
 
 class FTPImagesProcessor:
@@ -25,12 +28,14 @@ class FTPImagesProcessor:
 
     # FTP images handling
     async def ftp_images_handling(self, files: UploadedFile):
+        logger.info(f'Number of files: {len(files)}')
         await self.ftp_login()
         user_encoded_files = list()
         server_encoded_files = list()
         tasks = list()
 
         for file in files:
+            logger.info(f'File name: {file.name}')
             # Get user files data
             user_encoded_files.append({
                 'data': base64.b64encode(file.read()).decode('utf-8'),

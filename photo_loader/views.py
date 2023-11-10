@@ -1,12 +1,17 @@
 import json
 import re
+import traceback
+
 import aioftp
 import aiohttp
+import logging
 from photo_loader.services import FTPImagesProcessor
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
 from photo_loader.forms import FileUploadForm
+
+logger = logging.getLogger(__name__)
 
 
 # Main page handler
@@ -59,6 +64,8 @@ class PhotoLoaderSubmit(View):
 
 
 def handle_error(exception):
+    trace = traceback.extract_tb(exception.__traceback__)
+
     error_messages = {
         TimeoutError: 'Не удалось подключиться к серверу',
         aioftp.errors.StatusCodeError: {
@@ -69,6 +76,8 @@ def handle_error(exception):
         aiohttp.ClientResponseError: 'Ошибка при выполнении запроса',
     }
 
+    unknown_error_message = 'Неизвестная ошибка'
+
     if type(exception) in error_messages:
         message = error_messages[type(exception)]
 
@@ -76,8 +85,17 @@ def handle_error(exception):
             match = re.search(r'got (\d+)', str(exception))
             if match:
                 error_code = match.group(1)
-                message = message.get(error_code, 'Неизвестная ошибка')
+                message = message.get(error_code, unknown_error_message)
 
+                if message == 'Неизвестная ошибка':
+                    logger.error(f'Type: {type(exception)} - {exception} - {trace[0]} - {trace[1]}')
+                    return HttpResponse(
+                        'Неизвестная ошибка <br> <a href="javascript:history.back()">Назад</a>',
+                        status=500
+                    )
+
+        logger.warning(f'\n{type(exception)} - {exception} - {trace[0]} - {trace[1]}')
         return HttpResponse(f'{message} <br> <a href="javascript:history.back()">Назад</a>')
 
-    return HttpResponse('Неизвестная ошибка <br> <a href="javascript:history.back()">Назад</a>')
+    logger.error(f'Type: {type(exception)} - {exception} - {trace[0]} - {trace[1]}')
+    return HttpResponse(f'{unknown_error_message} <br> <a href="javascript:history.back()">Назад</a>', status=500)

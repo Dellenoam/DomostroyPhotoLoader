@@ -13,7 +13,7 @@
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ files_upload_form.files }}
-            <input type="submit" name="files_upload_form_submit" value="Загрузить">
+            <button type="submit" name="files_upload_form_submit">Загрузить</button>
         </form>
     </div>
 
@@ -68,7 +68,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <input type="submit" name="files_selection_form_submit" value="Подтвердить"/>
+            <button type="submit" name="files_selection_form_submit">Подтвердить</button>
         </form>
     {% endif %}
 {% endblock %}

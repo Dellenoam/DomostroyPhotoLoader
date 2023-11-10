@@ -2,8 +2,8 @@ import json
 import re
 import aioftp
 import aiohttp
-from photo_loader import services
-from django.http import HttpResponse, JsonResponse
+from photo_loader.services import FTPImagesProcessor
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
 from photo_loader.forms import FileUploadForm
@@ -30,13 +30,11 @@ class PhotoLoader(View):
         if files_upload_form.is_valid():
             files = request.FILES.getlist('files')
 
-            try:
-                ftp = await services.ftp_login()
-            except Exception as e:
-                return handle_error(e)
+            ftp_processor = FTPImagesProcessor()
 
             try:
-                user_encoded_files, server_encoded_files, product_names = await services.ftp_images_handling(ftp, files)
+                await ftp_processor.ftp_login()
+                user_encoded_files, server_encoded_files, product_names = await ftp_processor.ftp_images_handling(files)
             except Exception as e:
                 return handle_error(e)
 
@@ -68,8 +66,7 @@ def handle_error(exception):
             '550': 'Не удалось получить нужную папку или файл',
         },
         ConnectionRefusedError: 'Сервер отказал в соединении или не слушает указанный порт',
-        aiohttp.ClientResponseError: 'Ошибка при выполнении запроса к API',
-        KeyError: 'В данных JSON отсутствует искомый элемент',
+        aiohttp.ClientResponseError: 'Ошибка при выполнении запроса',
     }
 
     if type(exception) in error_messages:

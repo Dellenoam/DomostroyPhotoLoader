@@ -1,5 +1,6 @@
 import sys
 import os
+from datetime import datetime
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -146,7 +147,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': os.path.join(LOGS_DIR, 'DomostroyPhotoLoader.log'),
+            'filename': os.path.join(LOGS_DIR, f'DomostroyPhotoLoader_{ datetime.now().strftime("%d-%m-%Y") }.log'),
             'when': 'midnight',
             'interval': 1,
             'backupCount': 7,

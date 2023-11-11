@@ -1,7 +1,7 @@
+import asyncio
 import json
 import re
 import traceback
-
 import aioftp
 import aiohttp
 import logging
@@ -38,8 +38,10 @@ class PhotoLoader(View):
             ftp_processor = FTPImagesProcessor()
 
             try:
-                await ftp_processor.ftp_login()
-                user_encoded_files, server_encoded_files, product_names = await ftp_processor.ftp_images_handling(files)
+                await ftp_processor.login()
+                user_encoded_files, server_encoded_files, product_names = await ftp_processor.get_files_from_server(
+                    files
+                )
             except Exception as e:
                 return handle_error(e)
 
@@ -53,14 +55,14 @@ class PhotoLoader(View):
 
 class PhotoLoaderSubmit(View):
     @staticmethod
-    def get(request):
+    async def get(request):
         return redirect('photo_loader')
 
     @staticmethod
-    def post(request):
+    async def post(request):
         data = json.loads(request.body.decode('utf-8'))
-        print(data['file_name'])
-        return JsonResponse({'message': 'Данные получены!'})
+        ftp = FTPImagesProcessor()
+        await asyncio.create_task(ftp.replace_files(data))
 
 
 def handle_error(exception):

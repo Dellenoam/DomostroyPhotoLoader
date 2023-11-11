@@ -27,7 +27,7 @@
                             <div class="radio_btn left_radio_btn">
                                 <label class="lblRadio" for="replace_{{ user_photo.name }}">Заменить</label>
                                 <input class="inpRadio" type="radio" name="{{ user_photo.name }}"
-                                       id="replace_{{ user_photo.name }}">
+                                       id="replace_{{ user_photo.name }}" required>
                                 <input type="hidden" name="user_{{ user_photo.name }}" value="{{ user_photo.data }}">
                             </div>
                             <div class="left_img_container">
@@ -57,12 +57,12 @@
                                     <img class="img" src="data:image/jpg;base64,{{ server_photo.data }}"
                                          alt="{{ server_photo.name }}">
                                 </div>
-                                <h2 class="file_name">{{ server_photo.name }}</h2>
+                                <h2 class="file_name">{{ server_photo.name }} {{ server_photo.not_found }}</h2>
                             </div>
                             <div class="radio_btn right_radio_btn">
                                 <label class="lblRadio" for="leave_{{ server_photo.name }}">Оставить</label>
                                 <input class="inpRadio" type="radio" name="{{ server_photo.name }}"
-                                       id="leave_{{ server_photo.name }}">
+                                       id="leave_{{ server_photo.name }}" required>
                             </div>
                         </div>
                     {% endfor %}
@@ -76,6 +76,7 @@
 {% block js %}
     <script type="text/javascript" src="{% static 'photo_loader/js/photo_loader.js' %}"></script>
     <script>
+        const photo_loader_url = '{% url 'photo_loader' %}';
         const files_selection_form_submit_url = '{% url 'photo_loader_submit' %}';
     </script>
 {% endblock %}

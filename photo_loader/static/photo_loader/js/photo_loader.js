@@ -9,6 +9,8 @@ function handle_user_images(event) {
             void fetch_images_to_server(file_name, file_data);
         }
     }
+
+    window.location.replace(photo_loader_url);
 }
 
 async function fetch_images_to_server(file_name, file_data) {

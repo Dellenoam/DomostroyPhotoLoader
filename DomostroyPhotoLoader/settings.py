@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'core',
     'photo_loader',
     'account',
 ]
@@ -50,7 +49,7 @@ ROOT_URLCONF = 'DomostroyPhotoLoader.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR, 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,8 +70,12 @@ ASGI_APPLICATION = 'DomostroyPhotoLoader.asgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'local.db',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('db_name'),
+        'USER': os.getenv('db_user'),
+        'PASSWORD': os.getenv('db_password'),
+        'HOST': os.getenv('db_host'),
+        'PORT': os.getenv('db_port'),
     }
 }
 
@@ -113,33 +116,39 @@ DATETIME_FORMAT = 'd.m.Y H:i:s'
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 # Media files
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Maximum number of files to upload
+
 DATA_UPLOAD_MAX_NUMBER_FILES = None
+
 
 # Logging
 
 LOGS_DIR = os.path.join(BASE_DIR, 'logs')
-
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
         'main_format': {
-            'format': '{asctime} - {levelname} - {module} - {filename} - {message}',
+            'format': '{asctime} - {levelname} - {module} - {filename} - {user} - {message}',
             'style': '{',
         },
     },
@@ -162,3 +171,8 @@ LOGGING = {
         },
     },
 }
+
+# Login
+
+LOGIN_URL = 'login'
+LOGOUT_REDIRECT_URL = 'photo_loader'

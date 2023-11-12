@@ -1,17 +1,22 @@
-function handle_user_images(event) {
+async function handle_user_images(event) {
     event.preventDefault();
+
+    const fetchPromises = [];
 
     for (const element of form.elements) {
         if (element.type === 'radio' && element.id.startsWith('replace_') && element.checked) {
             const file_name = element.name;
             const file_data = form['user_' + file_name].value;
 
-            void fetch_images_to_server(file_name, file_data);
+            fetchPromises.push(fetch_images_to_server(file_name, file_data));
         }
     }
 
+    await Promise.all(fetchPromises);
+
     window.location.replace(photo_loader_url);
 }
+
 
 async function fetch_images_to_server(file_name, file_data) {
     const csrf_token = getCookie('csrftoken')

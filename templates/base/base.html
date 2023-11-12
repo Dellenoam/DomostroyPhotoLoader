@@ -3,11 +3,16 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{%static 'core/css/reset.css'%}">
+    <link rel="stylesheet" href="{% static 'base/css/reset.css' %}">
     {% block css %}{% endblock %}
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+    {% if user.is_authenticated %}
+        <header>
+            {{ user }} <a href="{% url 'logout' %}"> Выйти </a>
+        </header>
+    {% endif %}
     {% block content %}{% endblock %}
     {% block js %}{% endblock %}
 </body>

@@ -1,0 +1,8 @@
+{% extends 'base/base.html' %}
+
+{% block title %} Главная страница {% endblock %}
+
+{% block content %}
+    <h1> Главная страница </h1>
+    <a href="{% url 'photo_loader' %}"> Загрузить фото </a>
+{% endblock %}

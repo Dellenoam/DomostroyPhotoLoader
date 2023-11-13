@@ -1,5 +1,4 @@
 from django.contrib.auth import login, logout
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views import View
 from account.forms import LoginForm
@@ -32,7 +31,7 @@ class Login(View):
         return render(request, 'account/login.html', context)
 
 
-class Logout(LoginRequiredMixin, View):
+class Logout(View):
     def get(self, request):
         logout(request)
         return redirect('home')

@@ -5,9 +5,9 @@ import traceback
 import aioftp
 import aiohttp
 import logging
-from asgiref.sync import async_to_sync
-from django.contrib.auth.mixins import LoginRequiredMixin
-from photo_loader.services import FTPImagesProcessor
+from django.utils.decorators import method_decorator
+from photo_loader.decorators import async_login_required
+from photo_loader.ftp_hanlders import FTPImagesProcessor
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
@@ -25,7 +25,8 @@ class Home(View):
         return render(request, 'photo_loader/home.html')
 
 
-class PhotoLoader(LoginRequiredMixin, View):
+@method_decorator(async_login_required, name='dispatch')
+class PhotoLoader(View):
     """
     Manages the photo loading view, which involves displaying the form for file uploads
     and processing the uploaded files.
@@ -37,7 +38,6 @@ class PhotoLoader(LoginRequiredMixin, View):
     """
 
     # Return context and page
-    @async_to_sync
     async def get(self, request):
         context = dict()
         files_upload_form = FileUploadForm()
@@ -45,7 +45,6 @@ class PhotoLoader(LoginRequiredMixin, View):
         return render(request, 'photo_loader/photo_loader.html', context)
 
     # Return files from ftp server
-    @async_to_sync
     async def post(self, request):
         context = dict()
         files_upload_form = FileUploadForm(request.POST, request.FILES)
@@ -72,7 +71,8 @@ class PhotoLoader(LoginRequiredMixin, View):
         return render(request, 'photo_loader/photo_loader.html', context)
 
 
-class PhotoLoaderSubmit(LoginRequiredMixin, View):
+@method_decorator(async_login_required, name='dispatch')
+class PhotoLoaderSubmit(View):
     """
     View for handling photo loader submissions.
 
@@ -83,7 +83,6 @@ class PhotoLoaderSubmit(LoginRequiredMixin, View):
     """
 
     # Replacing files on ftp server
-    @async_to_sync
     async def post(self, request):
         data = json.loads(request.body.decode('utf-8'))
         ftp = FTPImagesProcessor()

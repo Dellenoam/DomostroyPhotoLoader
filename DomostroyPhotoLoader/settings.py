@@ -148,7 +148,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'main_format': {
-            'format': '{asctime} - {levelname} - {module} - {filename} - {user} - {message}',
+            'format': '{asctime} - {levelname} - {module} - {filename} - {message}',
             'style': '{',
         },
     },

@@ -58,7 +58,6 @@ class PhotoLoader(LoginRequiredMixin, View):
             ftp_processor = FTPImagesProcessor()
 
             try:
-                await ftp_processor.login()
                 user_encoded_files, server_encoded_files, product_names = await ftp_processor.get_files_from_server(
                     files
                 )

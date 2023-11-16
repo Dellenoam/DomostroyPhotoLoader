@@ -1,5 +1,4 @@
 {% extends 'base/base.html' %}
-
 {% load static %}
 
 {% block css %}
@@ -10,31 +9,44 @@
     <div class="logo_wrapper">
         <img src="{% static 'account/img/DomostroyLogo.png' %}" width="400" alt="Domostroy Logo">
     </div>
-
-    {% if error_messages %}
-        <div>
-            <strong>Ошибка:</strong>
-            {% for key, value in error_messages.items %}
-                {{ value }}
-            {% endfor %}
-        </div>
-    {% endif %}
-
     <div class="wrapper">
         <form method="POST">
             {% csrf_token %}
-
             <h1>Login</h1>
-
             <div class="input_box">
                 {{ login_form.username }}
             </div>
-
             <div class="input_box">
                 {{ login_form.password }}
             </div>
-
+            <div class="remember_me">
+                <div class="remember_wrapper">
+                    {{ login_form.remember_me }}
+                    <label for="{{ login_form.remember_me.id_for_label }}">Remember me!</label>
+                </div>
+                <a href="#">here may be your ad</a>
+            </div>
             <button type="submit" class="btn">Login</button>
         </form>
     </div>
+
+    <div id="blur_bg"></div>
+
+    <div id="errorModal">
+        <span id="closeBtn" onclick="closeErrorModal()">&times;</span>
+        <h2>Ошибка:</h2>
+        <p id="errorMessage"></p>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        {% if error_messages %}
+            let error_messages = ''
+            {% for value in error_messages.values %}
+                error_messages += '{{ value|striptags|escapejs }}' + '\n';
+            {% endfor %}
+        {% endif %}
+    </script>
+    <script type="text/javascript" src="{% static 'account/js/account.js' %}"></script>
 {% endblock %}

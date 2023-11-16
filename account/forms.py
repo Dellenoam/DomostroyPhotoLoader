@@ -13,3 +13,9 @@ class LoginForm(AuthenticationForm):
             'placeholder': 'Password',
         }),
     )
+    remember_me = forms.BooleanField(
+        required=False,
+        widget=forms.CheckboxInput(attrs={
+            'id': 'remember_checkbox',
+        }),
+    )

@@ -1,21 +1,13 @@
-body{
-    background: linear-gradient(to bottom, #e5e5e5, #a4a4a4) no-repeat;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.upload_form{
+.upload_form {
     display: flex;
     justify-content: space-between;
 }
-
-
 
 .main_container {
     margin-top: 10px;
     display: flex;
     justify-content: space-evenly;
+    width: 100vw;
 }
 
 .left_container, .right_container {
@@ -65,13 +57,14 @@ body{
     height: 400px;
 }
 
-.img_wrapper{
+.img_wrapper {
     width: 350px;
     height: 350px;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
 }
+
 .img {
     max-width: 350px;
     max-height: 350px;

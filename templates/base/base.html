@@ -4,16 +4,42 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static 'base/css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/base.css' %}">
     {% block css %}{% endblock %}
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+
+<nav>
     {% if user.is_authenticated %}
-        <header>
-            {{ user }} <a href="{% url 'logout' %}"> Выйти </a>
-        </header>
+        <div class="username">
+            <p>Вы авторизированы как: <span>{{ user }}</span></p>
+        </div>
+        <div class="homepage">
+            <a href="{% url 'home' %}">Photo Loader</a>
+        </div>
+        <div class="logout">
+            <a href="{% url 'logout' %}"> Выйти </a>
+        </div>
+    {% else %}
+        <div class="username">
+            <p>Вы не авторизованы. Пожалуйста выполните вход.</p>
+        </div>
+        <div class="logout" hidden>
+            {#            Поставить сюда ссылку на капибару#}
+        </div>
     {% endif %}
-    {% block content %}{% endblock %}
-    {% block js %}{% endblock %}
+
+</nav>
+
+<header>
+    {% block header %}{% endblock %}
+</header>
+
+<main>
+    {% block main %}{% endblock %}
+</main>
+
+{% block js %}{% endblock %}
 </body>
 </html>

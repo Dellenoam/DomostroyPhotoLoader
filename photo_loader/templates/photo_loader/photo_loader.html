@@ -8,7 +8,7 @@
 {% block title %} Загрузчик фото {% endblock %}
 
 {# File loading form #}
-{% block content %}
+{% block header %}
     <div class="upload_form">
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
@@ -16,7 +16,9 @@
             <button type="submit" name="files_upload_form_submit">Загрузить</button>
         </form>
     </div>
+{% endblock %}
 
+{% block main %}
     {% if files_selection_form %}
         <form method="POST" action="{% url 'photo_loader_submit' %}" id="files_selection_form">
             {% csrf_token %}

@@ -3,11 +3,38 @@
     justify-content: space-between;
 }
 
+.btn_wrapper{
+    display: flex;
+    justify-content: center;
+    margin: 45px 0;
+}
+
+.btn_wrapper button{
+    width: 300px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background-color: #fff;
+    cursor: pointer;
+    color: #000;
+}
+
 .main_container {
     margin-top: 10px;
     display: flex;
     justify-content: space-evenly;
     width: 100vw;
+}
+
+.select_left{
+    display: flex;
+    justify-content: left;
+    margin: 20px 10px 20px 10px;
+}
+
+.select_right{
+    display: flex;
+    justify-content: right;
+    margin: 20px 10px 20px 10px;
 }
 
 .left_container, .right_container {
@@ -74,3 +101,5 @@
 .file_name {
     margin-bottom: 10px;
 }
+
+

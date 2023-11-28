@@ -1,0 +1,81 @@
+.upload_form_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upload_form {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    max-height: 300px;
+    height: auto;
+    transition: max-height 0.5s ease;
+}
+
+.collapsed {
+    max-height: 0;
+}
+
+.arrow {
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.5s ease;
+}
+
+.arrow_collapsed {
+    transform: rotate(180deg);
+}
+
+#dropArea {
+    text-align: center;
+    width: 300px;
+    height: 200px;
+    border: 2px dashed #9d9d9d;
+    border-radius: 5px;
+}
+
+#dropArea.active {
+    border-color: #5e5e5e;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.drop_area p {
+    color: #888;
+}
+
+.drop_area .drop_text {
+    margin: 20px 0;
+    color: #888;
+}
+
+.drop_area .drop_text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #555;
+}
+
+.drop_area input {
+    display: none;
+}
+
+.browse_btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #fff;
+    color: #000;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.submit {
+    margin-top: 10px;
+    width: 300px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background-color: #fff;
+    cursor: pointer;
+    color: #000;
+}

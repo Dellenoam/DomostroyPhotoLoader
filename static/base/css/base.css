@@ -9,6 +9,7 @@ body{
     background-size: cover;
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
 }
 
 nav{
@@ -61,6 +62,5 @@ main{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
     height: 100%;
 }

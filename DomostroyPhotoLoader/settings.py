@@ -176,3 +176,7 @@ LOGGING = {
 
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'photo_loader'
+
+# Cookie expiration date
+
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 30  # 1 month

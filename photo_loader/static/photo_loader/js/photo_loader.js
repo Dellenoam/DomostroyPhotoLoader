@@ -48,5 +48,31 @@ function getCookie(name) {
     return null;
 }
 
+//
+// Checkboxes
+//
+
 const form = document.getElementById('files_selection_form')
 form.addEventListener('submit', handle_user_images)
+
+let selectLeftColumnCheckbox = document.getElementById('selectLeftColumn')
+let selectRightColumnCheckbox = document.getElementById('selectRightColumn')
+let leftColumnRadios = document.querySelectorAll('.inpRadioL')
+let rightColumnRadios = document.querySelectorAll('.inpRadioR')
+
+selectLeftColumnCheckbox.addEventListener('change', function () {
+    leftColumnRadios.forEach(function (radio) {
+        radio.checked = selectLeftColumnCheckbox.checked;
+        selectRightColumnCheckbox.checked = false
+
+    });
+});
+
+selectRightColumnCheckbox.addEventListener('change', function () {
+    rightColumnRadios.forEach(function (radio) {
+        radio.checked = selectRightColumnCheckbox.checked;
+        selectLeftColumnCheckbox.checked = false
+
+    });
+});
+

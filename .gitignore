@@ -3,6 +3,7 @@
 __pycache__
 venv
 media
+!media/server_media
 staticfiles
 .env
 .DS_STORE

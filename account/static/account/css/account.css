@@ -38,10 +38,10 @@
 
 .wrapper .remember_me {
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     margin: -15px 0 15px;
     padding: 5px;
-    font-size: 14.5px;
+    font-size: 14px;
 }
 
 .remember_wrapper {

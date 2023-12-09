@@ -6,29 +6,28 @@
 {% endblock %}
 
 {% block main %}
-        <div class="logo_wrapper">
-            <img src="{% static 'account/img/DomostroyLogo.png' %}" width="400" alt="Domostroy Logo">
-        </div>
-        <div class="wrapper">
-            <form method="POST">
-                {% csrf_token %}
-                <h1>Login</h1>
-                <div class="input_box">
-                    {{ login_form.username }}
+    <div class="logo_wrapper">
+        <img src="{% static 'account/img/DomostroyLogo.png' %}" width="400" alt="Domostroy Logo">
+    </div>
+    <div class="wrapper">
+        <form method="POST">
+            {% csrf_token %}
+            <h1>Login</h1>
+            <div class="input_box">
+                {{ login_form.username }}
+            </div>
+            <div class="input_box">
+                {{ login_form.password }}
+            </div>
+            <div class="remember_me">
+                <div class="remember_wrapper">
+                    {{ login_form.remember_me }}
+                    <label for="{{ login_form.remember_me.id_for_label }}">Remember me!</label>
                 </div>
-                <div class="input_box">
-                    {{ login_form.password }}
-                </div>
-                <div class="remember_me">
-                    <div class="remember_wrapper">
-                        {{ login_form.remember_me }}
-                        <label for="{{ login_form.remember_me.id_for_label }}">Remember me!</label>
-                    </div>
-                    <a href="#">here may be your ad</a>
-                </div>
-                <button type="submit" class="btn">Login</button>
-            </form>
-        </div>
+            </div>
+            <button type="submit" class="btn">Login</button>
+        </form>
+    </div>
 
 
     <div id="blur_bg"></div>

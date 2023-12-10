@@ -2,12 +2,12 @@
 {% load static %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static 'account/css/account.css' %}">
+    <link rel="stylesheet" href="{% static 'accounts/css/account.css' %}">
 {% endblock %}
 
 {% block main %}
     <div class="logo_wrapper">
-        <img src="{% static 'account/img/DomostroyLogo.png' %}" width="400" alt="Domostroy Logo">
+        <img src="{% static 'accounts/img/DomostroyLogo.png' %}" width="400" alt="Domostroy Logo">
     </div>
     <div class="wrapper">
         <form method="POST">
@@ -48,5 +48,5 @@
             {% endfor %}
         {% endif %}
     </script>
-    <script type="text/javascript" src="{% static 'account/js/account.js' %}"></script>
+    <script type="text/javascript" src="{% static 'accounts/js/account.js' %}"></script>
 {% endblock %}

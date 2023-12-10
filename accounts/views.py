@@ -1,7 +1,7 @@
 from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect
 from django.views import View
-from account.forms import LoginForm
+from accounts.forms import LoginForm
 
 
 class Login(View):
@@ -10,7 +10,7 @@ class Login(View):
         form = LoginForm()
         context['login_form'] = form
 
-        return render(request, 'account/login.html', context)
+        return render(request, 'accounts/login.html', context)
 
     def post(self, request):
         context = dict()
@@ -22,7 +22,7 @@ class Login(View):
             login(request, user)
 
             if not form.cleaned_data['remember_me']:
-                request.session.set_expiry(0)
+                request.session.set_expiry(None)
 
             if 'next' in request.GET:
                 return redirect(request.GET['next'])
@@ -31,7 +31,7 @@ class Login(View):
 
         context['error_messages'] = form.errors
 
-        return render(request, 'account/login.html', context)
+        return render(request, 'accounts/login.html', context, status=400)
 
 
 class Logout(View):

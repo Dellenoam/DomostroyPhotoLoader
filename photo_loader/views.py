@@ -11,7 +11,7 @@ from photo_loader.ftp_hanlders import FTPImagesProcessor
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
-from photo_loader.forms import FileUploadForm
+from photo_loader.forms import FilesUploadForm
 
 logger = logging.getLogger(__name__)
 
@@ -40,14 +40,14 @@ class PhotoLoader(View):
     # Return context and page
     async def get(self, request):
         context = dict()
-        files_upload_form = FileUploadForm()
+        files_upload_form = FilesUploadForm()
         context['files_upload_form'] = files_upload_form
         return render(request, 'photo_loader/photo_loader.html', context)
 
     # Return files from ftp server
     async def post(self, request):
         context = dict()
-        files_upload_form = FileUploadForm(request.POST, request.FILES)
+        files_upload_form = FilesUploadForm(request.POST, request.FILES)
         context['files_upload_form'] = files_upload_form
         context['files_selection_form'] = False
 
@@ -63,12 +63,14 @@ class PhotoLoader(View):
             except Exception as e:
                 return handle_error(e)
 
-            context['user_photos'] = user_encoded_files[::-1]
-            context['server_photos'] = server_encoded_files[::-1]
-            context['product_names'] = product_names[::-1]
+            context['user_photos'] = user_encoded_files
+            context['server_photos'] = server_encoded_files
+            context['product_names'] = product_names
             context['files_selection_form'] = True
 
-        return render(request, 'photo_loader/photo_loader.html', context)
+            return render(request, 'photo_loader/photo_loader.html', context)
+
+        return render(request, 'photo_loader/photo_loader.html', context, status=400)
 
 
 @method_decorator(async_login_required, name='dispatch')
@@ -84,11 +86,18 @@ class PhotoLoaderSubmit(View):
 
     # Replacing files on ftp server
     async def post(self, request):
-        data = json.loads(request.body.decode('utf-8'))
-        ftp = FTPImagesProcessor()
-        await asyncio.create_task(ftp.replace_files(data))
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+        except json.JSONDecodeError:
+            return HttpResponse(status=400)
 
-        return HttpResponse(status=200)
+        try:
+            ftp = FTPImagesProcessor()
+            await asyncio.create_task(ftp.replace_files(data))
+        except Exception as e:
+            return handle_error(e)
+
+        return HttpResponse(status=204)
 
 
 def handle_error(exception):
@@ -129,7 +138,7 @@ def handle_error(exception):
                     )
 
         logger.warning(f'\n{type(exception)} - {exception} - {trace[0]} - {trace[1]}')
-        return HttpResponse(f'{message} <br> <a href="javascript:history.back()">Назад</a>')
+        return HttpResponse(f'{message} <br> <a href="javascript:history.back()">Назад</a>', status=500)
 
     logger.error(f'Type: {type(exception)} - {exception} - {trace[0]} - {trace[1]}')
     return HttpResponse(f'{unknown_error_message} <br> <a href="javascript:history.back()">Назад</a>', status=500)

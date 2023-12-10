@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'photo_loader',
-    'account',
+    'accounts',
 ]
 
 MIDDLEWARE = [

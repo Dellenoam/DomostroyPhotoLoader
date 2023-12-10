@@ -13,18 +13,18 @@ logger = logging.getLogger(__name__)
 class FTPImagesProcessor:
     def __init__(self):
         # FTP Client session
-        self.ftp = None
+        self.client = None
 
         # Semaphore for get_product_name function
         self.sem_get_product_name = asyncio.Semaphore(10)
 
     # FTP login function
     async def login(self):
-        self.ftp = aioftp.Client()
-        await self.ftp.connect(os.getenv('ftp_server'), 21)
-        await self.ftp.login(os.getenv('ftp_username'), os.getenv('ftp_password'))
-        await self.ftp.change_directory('DomostroyPhoto')
-        await self.ftp.change_directory('1500x1500')
+        self.client = aioftp.Client()
+        await self.client.connect(os.getenv('ftp_server'), 21)
+        await self.client.login(os.getenv('ftp_username'), os.getenv('ftp_password'))
+        await self.client.change_directory('DomostroyPhoto')
+        await self.client.change_directory('1500x1500')
 
     # FTP images handling
     async def get_files_from_server(self, files: UploadedFile):
@@ -43,8 +43,8 @@ class FTPImagesProcessor:
             })
 
             # If file exists then get its data or return file 404
-            if await self.ftp.exists(file.name):
-                async with self.ftp.download_stream(file.name) as stream:
+            if await self.client.exists(file.name):
+                async with self.client.download_stream(file.name) as stream:
                     server_file_data = await stream.read()
 
                 server_encoded_files.append({
@@ -65,7 +65,7 @@ class FTPImagesProcessor:
         product_names = await asyncio.gather(*tasks)
 
         # Ending the ftp client session
-        await self.ftp.quit()
+        await self.client.quit()
 
         return [user_encoded_files, server_encoded_files, product_names]
 
@@ -94,7 +94,7 @@ class FTPImagesProcessor:
 
         await self.login()
 
-        async with self.ftp.upload_stream(data['file_name']) as stream:
+        async with self.client.upload_stream(data['file_name']) as stream:
             await stream.write(data['file_data'])
 
-        await self.ftp.quit()
+        await self.client.quit()

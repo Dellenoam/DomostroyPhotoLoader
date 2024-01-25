@@ -136,7 +136,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Maximum number of files to upload
 
 DATA_UPLOAD_MAX_NUMBER_FILES = None
-
+DATA_UPLOAD_MAX_MEMORY_SIZE = 15728640
 
 # Logging
 
